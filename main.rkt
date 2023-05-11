@@ -51,9 +51,11 @@
        name args (map dispatch-method-type-names options))))
 
 (define (dispatch-types-match? types args)
-  (for/and ([type? types]
-            [arg args])
-    (type? arg)))
+  (and (= (length types)
+          (length args))
+       (for/and ([type? types]
+                 [arg args])
+         (type? arg))))
 
 (define (raise-dispatch-error name given type-options)
   (define options-str
