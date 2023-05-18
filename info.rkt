@@ -3,7 +3,10 @@
 (define collection "dispatch")
 
 (define scribblings
-  '(("main.scrbl")))
+  '(("main.scrbl"
+     '() ; flags
+     '(library)
+     "dispatch")))
 
 (define deps
   '("base"))
