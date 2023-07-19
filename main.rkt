@@ -40,13 +40,17 @@
 
 (define ((make-dispatch-proc name) . args)
   (define options (hash-ref dispatch-table name))
-  (or (for/first ([option options]
-                  #:when (dispatch-types-match?
-                          (dispatch-method-types option)
-                          args))
-        (apply (dispatch-method-body
-                option)
-               args))
+  (define found-option #f)
+  (define result
+    (for/first ([option options]
+                #:when (dispatch-types-match?
+                        (dispatch-method-types option)
+                        args))
+      (set! found-option #t)
+      (apply (dispatch-method-body
+              option)
+             args)))
+  (if found-option result
       (raise-dispatch-error
        name args (map dispatch-method-type-names options))))
 
